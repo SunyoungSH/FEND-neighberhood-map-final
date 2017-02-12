@@ -139,7 +139,7 @@ var add4square = function(item) {
             var imgSrcPre = data.response.venue.photos.groups[0].items[0].prefix;
             var imgSrcSuf = data.response.venue.photos.groups[0].items[0].suffix;
             var imgSrc = imgSrcPre + '300x200' + imgSrcSuf;
-            item.rating = rating;
+            item.rating = rating || 'No rating availble';
             item.imgSrc = imgSrc;
         }
     }).fail(function() {
@@ -171,7 +171,7 @@ var ViewModel = function() {
     //toggle list view when window width is less than 600px
     this.toggleList = function() {
         self.showList(!self.showList());
-    }
+    };
     // List is filtered based on searchbar
     this.filteredList = ko.observableArray(self.list());
     this.searchStr = ko.observable('');
@@ -231,6 +231,7 @@ function initMap() {
         // Open infowindow when marker is clicked.
         marker.addListener('click', function() {
             var marker = this;
+            map.setCenter(marker.getPosition());
             marker.setAnimation(google.maps.Animation.BOUNCE);
             setTimeout(function() {
                 marker.setAnimation(null);
